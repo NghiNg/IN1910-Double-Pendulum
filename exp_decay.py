@@ -7,14 +7,8 @@ class ExponentialDecay(object):
         self.a = a
     def __call__(self, t, u):
         dudt = -self.a*u
-        print('test')
         return(dudt)
     def solve(self, u0, T, dt):
-        #t = np.linspace(0,T+1,dt)
-        t = (0,T)
-        #u = u0
-        #dudt = ExponentialDecay.call(t,u)
-        #dudt=call(t,u0)
-        print('heihei')
-        ut = sp.solve_ivp(dudt,t,u0,t_eval=None)
+        t = np.linspace(0,T+1,dt)
+        ut = sp.solve_ivp(self, (0,T+1), u0, t_eval=t)
         return(t,ut)
