@@ -1,4 +1,5 @@
 from exp_decay import ExponentialDecay
+import nose.tools as nt
 
 def test_ExponentialDecay():
     u = 3.2
