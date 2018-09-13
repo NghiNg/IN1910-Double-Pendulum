@@ -7,9 +7,9 @@ t = np.linspace(0,100,101)
 
 def test_pendulum1():
     L = 2.2
-    ans = -0.061122
+    ans = -3.153053
     a = Pendulum(L)
     test = a(t, (np.pi/4, 0.1))
-    nt.assert_equal(test[1], ans)
+    assert abs(ans - test[1]) > 1e-10, "is wrong!!!!!"
 
 test_pendulum1()
