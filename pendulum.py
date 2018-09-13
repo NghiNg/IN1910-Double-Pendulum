@@ -18,11 +18,27 @@ class Pendulum:
     def solve(self, y0, T, dt, angles='rad'):
         '''y0 is tuple of (theta0, omega0)
         angles can be 'rad' for radians or 'deg' for degrees.'''
-        t = np.linspace(0,T+1,dt)
+        time = np.linspace(0,T+1,dt)
         if angles == 'deg':
             math.radians(y0[0])
         elif angles == 'rad':
             pass
         else:
             raise NameError('Keyword angles must be rad or deg as string.')
-        self.solution = sp.solve_ivp(self, (0,T+1), y0, t_eval=t)
+        solution = sp.solve_ivp(self, (0,T+1), y0, t_eval=time)
+
+        @property
+        def t(self):
+            return t
+        @property
+        def theta(self):
+            return y[0]
+        @property
+        def omega(self):
+            return y[1]
+
+
+
+
+a = Pendulum()
+a.solve((0,20), 50, 101)
