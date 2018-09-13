@@ -21,6 +21,5 @@ dt = 10
 
 decay_model = ExponentialDecay(a)
 t, u = decay_model.solve(u0, T, dt)
-
-plt.plot(t, u)
+plt.plot(t, u.y[0])
 plt.show()
