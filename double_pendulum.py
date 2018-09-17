@@ -2,6 +2,7 @@ import scipy.integrate as sp
 import numpy as np
 import math
 import matplotlib.pyplot as plt
+import matplotlib.animation as ani
 
 g = 9.81        # gravitational acceleration [m/s**2]
 
@@ -22,8 +23,16 @@ class DoublePendulum():
 
         dtheta = y[0] - y[2]
 
-        domegadt1 = (M2*L1*y[1]**2*np.sin(dtheta)*np.cos(dtheta) + M2*g*np.sin(y[2])*np.cos(dtheta) + M2*L2*y[3]**2*np.sin(dtheta) - (M1 + M2)*g*np.sin(y[0])) / ((M1 + M2)*L1 - M2*L1*np.cos(dtheta)**2)
-        domegadt2 = (-M2*L2*y[3]**2*np.sin(dtheta)*np.cos(dtheta) + (M1 + M2)*g*np.sin(y[0])*np.cos(dtheta) - (M1 + M2)*L1*y[1]**2*np.sin(dtheta) - (M1 + M2)*g*np.sin(y[2])) / ((M1 + M2)*L2 - M2*L2*np.cos(dtheta)**2)
+        domegadt1 = (M2*L1*y[1]**2*np.sin(dtheta)*np.cos(dtheta)
+                    + M2*g*np.sin(y[2])*np.cos(dtheta)
+                    + M2*L2*y[3]**2*np.sin(dtheta)
+                    - (M1 + M2)*g*np.sin(y[0])) / ((M1
+                    + M2)*L1 - M2*L1*np.cos(dtheta)**2)
+        domegadt2 = (-M2*L2*y[3]**2*np.sin(dtheta)*np.cos(dtheta)
+                    + (M1 + M2)*g*np.sin(y[0])*np.cos(dtheta)
+                    - (M1 + M2)*L1*y[1]**2*np.sin(dtheta)
+                    - (M1 + M2)*g*np.sin(y[2])) / ((M1
+                    + M2)*L2 - M2*L2*np.cos(dtheta)**2)
 
         return (dthetadt1, domegadt1, dthetadt2, domegadt2)
 
@@ -37,7 +46,7 @@ class DoublePendulum():
                 or set to 'deg' for degrees
         '''
         time = np.linspace(0,T+1,dt)
-
+        self.dt = dt
         # determining 'angles'-keyword functionality
         if angles == 'deg':
             math.radians(y0[0])
@@ -48,7 +57,6 @@ class DoublePendulum():
             raise NameError('Keyword angles must be rad or deg as string.')
 
         solution = sp.solve_ivp(self, (0,T+1), y0, t_eval=time, method='Radau')
-
         self._t = solution.t
         self._theta1, self._omega1, self._theta2, self._omega2 = solution.y
 
@@ -99,6 +107,38 @@ class DoublePendulum():
         self._K = K1 + K2
         return self._K
 
+    def create_animation(self):
+        # Create empty figure
+        fig = plt.figure()
+
+        # Configure figure
+        plt.axis('equal')
+        plt.axis('on')
+        plt.axis((-3, 3, -3, 3))
+
+        # Make an "empty" plot object to be updated throughout the animation
+        self.pendulums, = plt.plot([], [], 'o-', lw=2)
+
+        # Call FuncAnimation
+        self.animation = ani.FuncAnimation(fig,
+                                                 self._next_frame,
+                                                 frames=range(len(self.x1)),
+                                                 repeat=None,
+                                                 interval=1000*self.dt,
+                                                 blit=True)
+
+    def _next_frame(self, i):
+        self.pendulums.set_data((0, self.x1[i], self.x2[i]),
+                                (0, self.y1[i], self.y2[i]))
+        return self.pendulums,
+
+    def show_animation(self):
+        plt.show()
+
+    def save_animation(self, filename):
+        self.animation.save(filename, fps=60)
+
+'''
 a = DoublePendulum()
 a.solve((1,1,1,1), 10, 1001)
 
@@ -110,3 +150,8 @@ plt.figure('motion')
 plt.plot(a.t, a.theta2, 'k')
 plt.plot(a.t, a.theta1, 'cyan')
 plt.show()
+'''
+a = DoublePendulum()
+a.solve((1,1,1,1), 10, 1000)
+a.create_animation()
+a.save_animation('example_pendulum.mp4')
