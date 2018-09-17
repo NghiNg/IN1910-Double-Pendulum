@@ -36,36 +36,28 @@ class Pendulum:
         self._omega = self.solution.y[1]
     @property
     def t(self):
-        print('getting value')
         return self._t
     @t.setter
     def t(self,value):
-        print('setting value')
         self._t = value
     @property
     def theta(self):
-        print('getting value')
         return self._theta
     @theta.setter
     def theta(self,value):
-        print('setting value')
         self._theta = value
     @property
     def omega(self):
-        print('getting value')
         return self._omega
     @omega.setter
     def omega(self,value):
-        print('setting value')
         self._omega = value
     @property
     def x(self):
-        print('getting value')
         self._x = self.L*np.sin(self._theta)
         return self._x
     @property
     def y(self):
-        print('getting value')
         self._y = (-1)*self.L*np.cos(self._theta)
         return self._y
 
