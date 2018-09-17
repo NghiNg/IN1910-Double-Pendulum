@@ -41,7 +41,7 @@ class Pendulum:
         else:
             raise NameError('Keyword angles must be rad or deg as string.')
 
-        solution = sp.solve_ivp(self, (0,T+1), y0, t_eval=time)
+        solution = sp.solve_ivp(self, (0,T+1), y0, t_eval=time, method='Radau')
 
         self._t = solution.t
         self._theta = solution.y[0]
@@ -71,12 +71,12 @@ class Pendulum:
 
     @property
     def x(self):
-        self._x = self.L*np.sin(self._theta)
+        self._x = self.L*np.sin(self.theta)
         return self._x
 
     @property
     def y(self):
-        self._y = (-1)*self.L*np.cos(self._theta)
+        self._y = (-1)*self.L*np.cos(self.theta)
         return self._y
 
     @property
@@ -120,7 +120,7 @@ class DampenedPendulum(Pendulum):
 
 # making Pendulum object a
 a = Pendulum()
-a.solve((np.pi/4, 0.1), 10, 1001)
+a.solve((np.pi/4, 0.1), 50, 1001)
 
 # making a DampenedPendulum object b
 b = DampenedPendulum(B=0.1)
