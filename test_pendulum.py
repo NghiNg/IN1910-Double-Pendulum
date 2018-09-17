@@ -24,7 +24,7 @@ test_pendulum2()
 
 def test_radius():
     a = Pendulum()
-    a.solve((0,20),50,101)
+    a.solve((0,0.1),10,101)
     r2 = a.x**2 + a.y**2
     assert np.isclose(1**2, np.all(r2))
 test_radius()
