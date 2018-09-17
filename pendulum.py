@@ -28,15 +28,35 @@ class Pendulum:
             pass
         else:
             raise NameError('Keyword angles must be rad or deg as string.')
-        solution = sp.solve_ivp(self, (0,T+1), y0, t_eval=time)
-        self.t = solution.t
-        self.theta, self.omega = solution.y
-
+        self.solution = sp.solve_ivp(self, (0,T+1), y0, t_eval=time)
+        '''self.t = solution.t
+        self.theta, self.omega = solution.y'''
+        self._t = self.solution.t
+        self._theta = self.solution.y[0]
+        self._omega = self.solution.y[1]
+    @property
     def t(self):
-        return self.t
+        print('getting value')
+        return self._t
+    @t.setter
+    def t(self,x):
+        print('setting value')
+        self._t = x
+    @property
     def theta(self):
-        return self.theta
+        print('getting value')
+        return self._theta
+    @theta.setter
+    def theta(self,x):
+        print('setting value')
+        self._theta = x
+    @property
     def omega(self):
-        return self.omega
+        print('getting value')
+        return self._omega
+    @omega.setter
+    def omega(self,x):
+        print('setting value')
+        self._omega = x
 
     #solution = property(t,theta,omega)
