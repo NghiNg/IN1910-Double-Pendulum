@@ -60,6 +60,17 @@ class Pendulum:
     def y(self):
         self._y = (-1)*self.L*np.cos(self._theta)
         return self._y
-
-
-    #solution = property(t,theta,omega)
+    @property
+    def v(self):
+        vx = np.gradient(self.x, self.t)
+        vy = np.gradient(self.y, self.t)
+        self._v = np.asarray([vx, vy])
+        return self._v
+    @property
+    def potential(self):
+        self._P = self.M*g*(self._y + self.L)
+        return self._P
+    @property
+    def kinetic(self):
+        self._K = 0.5*self.M*(self._v[0]**2 + self._v[1]**2)
+        return self._K
