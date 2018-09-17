@@ -1,9 +1,12 @@
+import scipy.integrate as sp
 import numpy as np
+import math
 
-g = 9.81
+g = 9.81        # gravitational acceleration [m/s**2]
 
 class DoublePendulum():
     def __init__(self, M1=1, L1=1, M2=1, L2=1):
+        # mass of pendulum and length of rope for pendulum 1 an 2 respectively
         self.M1, self.M2, self.L1, self. L2 = M1, M2, L1, L2
 
     def __call__(self, t, y):
@@ -23,8 +26,30 @@ class DoublePendulum():
 
         return (dthetadt1, domegadt1, dthetadt2, domegadt2)
 
+    def solve(self, y0, T, dt, angles='rad'):
+        '''
+        method for solving initial value problem for motion of a single pendulum
 
+        y0:     A tuple of (theta1_0, omega1_0, theta2_0, omega2_0)
+        T:      Timespan
+        angles: Optional keyword argument, by default 'rad' for radians
+                or set to 'deg' for degrees
+        '''
+        time = np.linspace(0,T+1,dt)
 
+        # determining 'angles'-keyword functionality
+        if angles == 'deg':
+            math.radians(y0[0])
+            math.radians(y0[2])
+        elif angles == 'rad':
+            pass
+        else:
+            raise NameError('Keyword angles must be rad or deg as string.')
+
+        solution = sp.solve_ivp(self, (0,T+1), y0, t_eval=time)
+
+        self._t = solution.t
+        self.theta1, self.omega1, self.theta2, self.omega2 = solution.y
 
 a = DoublePendulum()
-print(a(np.linspace(0,10,101), (1,2,3,4)))
+a.solve((1,1,1,1), 10, 101)
