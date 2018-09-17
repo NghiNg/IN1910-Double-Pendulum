@@ -49,7 +49,33 @@ class DoublePendulum():
         solution = sp.solve_ivp(self, (0,T+1), y0, t_eval=time)
 
         self._t = solution.t
-        self.theta1, self.omega1, self.theta2, self.omega2 = solution.y
+        self._theta1, self._omega1, self._theta2, self._omega2 = solution.y
+
+    @property
+    def t(self):
+        return self._t
+    @property
+    def theta1(self):
+        return self._theta1
+    @property
+    def theta2(self):
+        return self._theta2
+    @property
+    def x1(self):
+        self._x1 = self.L1*np.sin(theta1)
+        return self._x1
+    @property
+    def y1(self):
+        self._y1 = -self.L1*np.cos(theta1)
+        return self._y1
+    @property
+    def x2(self):
+        self._x2 = x1 + self.L2*np.sin(theta2)
+        return self._x2
+    @property
+    def y2(self):
+        self._y2 = y1 - self.L2*np.cos(theta2)
+        return self._y2
 
 a = DoublePendulum()
 a.solve((1,1,1,1), 10, 101)
