@@ -1,6 +1,3 @@
-#This is for me to do tests of things in.
-#For now, I will add changes to things when I work alone and we'll see.
-
 import scipy.integrate as sp
 import numpy as np
 import matplotlib.pyplot as plt
@@ -30,7 +27,8 @@ class Pendulum:
 
         y0:     A tuple of (theta0, omega0)
         T:      Timespan
-        angles: Optional keyword argument, by default 'rad' for radians or set to 'deg' for degrees
+        angles: Optional keyword argument, by default 'rad' for radians
+                or set to 'deg' for degrees
         '''
         time = np.linspace(0,T+1,dt)
 
@@ -98,18 +96,43 @@ class Pendulum:
         return self._K
 
 
+class DampenedPendulum(Pendulum):
+    '''
+    Subclass of Pendulum with updated equations of motion including
+    dampening parameter B
+    '''
+    def __init__(self, L=1, M=1, B=1):
+        self.L = L      # lengt of rope [m]
+        self.M = M      # mass of pendulum [kg]
+        self.B = B      # dampening parameter
+
+    def __call__(self, t, y):
+        '''
+        t: an array of time steps from (0,T)
+        y: a tuple of (theta, omega)
+        '''
+        dthetadt = y[1]                 # time derivative of theta
+
+        # new time derivative of omega
+        domegadt = -(g/self.L)*np.sin(y[0]) - (self.B/self.M)*y[1]
+        return(dthetadt, domegadt)
+
 # making Pendulum object a
 a = Pendulum()
 a.solve((np.pi/4, 0.1), 10, 1001)
 
+# making a DampenedPendulum object b
+b = DampenedPendulum(B=0.1)
+b.solve((np.pi/4, 0.1), 10, 1001)
+
 # plotting motion of pendulum (theta)
 plt.figure('motion')
-plt.plot(a.t, a.theta, 'k')
+plt.plot(b.t, b.theta, 'k')
 
-# plotting energy of pendulum (potential, kinetic, sum)
+# plotting energy of pendulum (potentibl, kinetic, sum)
 plt.figure('energy')
-plt.plot(a.t, a.kinetic, color='darkcyan')
-plt.plot(a.t, a.potential, color='firebrick')
-plt.plot(a.t, a.kinetic + a.potential, color='orange')
+plt.plot(b.t, b.kinetic, color='darkcyan')
+plt.plot(b.t, b.potential, color='firebrick')
+plt.plot(b.t, b.kinetic + b.potential, color='orange')
 
 plt.show()
