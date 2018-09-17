@@ -45,9 +45,10 @@ class Pendulum:
 
         self._t = solution.t
         self._theta = solution.y[0]
-        #self._omega = solution.y[0]
+        self._omega = solution.y[0]
 
-    # making properties of t, theta, omega, x, y, v, kinetic and potential energy
+    # making properties of t, theta, omega, x, y, v, kinetic and
+    # potential energy
     @property
     def t(self):
         return self._t
