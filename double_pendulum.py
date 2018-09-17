@@ -1,6 +1,7 @@
 import scipy.integrate as sp
 import numpy as np
 import math
+import matplotlib.pyplot as plt
 
 g = 9.81        # gravitational acceleration [m/s**2]
 
@@ -46,7 +47,7 @@ class DoublePendulum():
         else:
             raise NameError('Keyword angles must be rad or deg as string.')
 
-        solution = sp.solve_ivp(self, (0,T+1), y0, t_eval=time)
+        solution = sp.solve_ivp(self, (0,T+1), y0, t_eval=time, method='Radau')
 
         self._t = solution.t
         self._theta1, self._omega1, self._theta2, self._omega2 = solution.y
@@ -62,20 +63,50 @@ class DoublePendulum():
         return self._theta2
     @property
     def x1(self):
-        self._x1 = self.L1*np.sin(theta1)
+        self._x1 = self.L1*np.sin(self.theta1)
         return self._x1
     @property
     def y1(self):
-        self._y1 = -self.L1*np.cos(theta1)
+        self._y1 = -self.L1*np.cos(self.theta1)
         return self._y1
     @property
     def x2(self):
-        self._x2 = x1 + self.L2*np.sin(theta2)
+        self._x2 = self.x1 + self.L2*np.sin(self.theta2)
         return self._x2
     @property
     def y2(self):
-        self._y2 = y1 - self.L2*np.cos(theta2)
+        self._y2 = self.y1 - self.L2*np.cos(self.theta2)
         return self._y2
+    @property
+    def v(self):
+        vx1 = np.gradient(self.x1, self.t)
+        vy1 = np.gradient(self.y1, self.t)
+        vx2 = np.gradient(self.x2, self.t)
+        vy2 = np.gradient(self.y2, self.t)
+        self._v = np.asarray([vx1, vy1, vx2, vy2])
+        return self._v
+
+    @property
+    def potential(self):
+        P1 = self.M1*g*(self.y1 + self.L1)
+        P2 = self.M2*g*(self.y2 + self.L1 + self.L2)
+        self._P = P1 + P2
+        return self._P
+    @property
+    def kinetic(self):
+        K1 = 0.5*self.M1*(self.v[0]**2 + self.v[1]**2)
+        K2 = 0.5*self.M2*(self.v[2]**2 + self.v[3]**2)
+        self._K = K1 + K2
+        return self._K
 
 a = DoublePendulum()
-a.solve((1,1,1,1), 10, 101)
+a.solve((1,1,1,1), 10, 1001)
+
+plt.plot(a.t, a.kinetic, color='violet')
+plt.plot(a.t, a.potential, color='darkmagenta')
+plt.plot(a.t, a.kinetic + a.potential, color='skyblue')
+plt.legend(['Kinetic', 'Potential', 'Sum'], loc = 'best')
+plt.figure('motion')
+plt.plot(a.t, a.theta2, 'k')
+plt.plot(a.t, a.theta1, 'cyan')
+plt.show()
