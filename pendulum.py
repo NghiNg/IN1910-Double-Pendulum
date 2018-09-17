@@ -19,7 +19,7 @@ class Pendulum:
         '''
         dthetadt = y[1]                         # time derivative of theta
         domegadt = -(g/self.L)*np.sin(y[0])     # time derivative of omega
-        return(dthetadt, domegadt)
+        return (dthetadt, domegadt)
 
     def solve(self, y0, T, dt, angles='rad'):
         '''
@@ -115,7 +115,7 @@ class DampenedPendulum(Pendulum):
 
         # new time derivative of omega
         domegadt = -(g/self.L)*np.sin(y[0]) - (self.B/self.M)*y[1]
-        return(dthetadt, domegadt)
+        return (dthetadt, domegadt)
 
 # making Pendulum object a
 a = Pendulum()
