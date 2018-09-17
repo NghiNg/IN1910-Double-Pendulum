@@ -7,8 +7,11 @@ import matplotlib.animation as ani
 g = 9.81        # gravitational acceleration [m/s**2]
 
 class DoublePendulum():
+    '''
+    Class for describing the behaviour of a double pendulum
+    '''
     def __init__(self, M1=1, L1=1, M2=1, L2=1):
-        # mass of pendulum and length of rope for pendulum 1 an 2 respectively
+        # mass of pendulum and length of rope for pendulum 1 an 2, respectively
         self.M1, self.M2, self.L1, self. L2 = M1, M2, L1, L2
 
     def __call__(self, t, y):
@@ -18,11 +21,14 @@ class DoublePendulum():
         '''
         M1, M2, L1, L2 = self.M1, self.M2, self.L1, self.L2
 
+        # time derivatives of theta1 and theta2
         dthetadt1 = y[1]
         dthetadt2 = y[3]
 
-        dtheta = y[0] - y[2]
+        # theta2 - theta1
+        dtheta = y[2] - y[1]
 
+        # time derivatives of omega1 and omega2
         domegadt1 = (M2*L1*y[1]**2*np.sin(dtheta)*np.cos(dtheta)
                     + M2*g*np.sin(y[2])*np.cos(dtheta)
                     + M2*L2*y[3]**2*np.sin(dtheta)
@@ -38,15 +44,16 @@ class DoublePendulum():
 
     def solve(self, y0, T, dt, angles='rad'):
         '''
-        method for solving initial value problem for motion of a single pendulum
+        method for solving initial value problem for motion of a double pendulum
 
         y0:     A tuple of (theta1_0, omega1_0, theta2_0, omega2_0)
         T:      Timespan
         angles: Optional keyword argument, by default 'rad' for radians
                 or set to 'deg' for degrees
         '''
-        time = np.linspace(0,T+1,dt)
         self.dt = dt
+        time = np.linspace(0,T+1,dt)
+
         # determining 'angles'-keyword functionality
         if angles == 'deg':
             math.radians(y0[0])
@@ -60,15 +67,19 @@ class DoublePendulum():
         self._t = solution.t
         self._theta1, self._omega1, self._theta2, self._omega2 = solution.y
 
+    # making properties of t, theta1, theta2, x1, y1, x2, y2, v, potential
+    # and kinetic energy
     @property
     def t(self):
         return self._t
+
     @property
     def theta1(self):
         return self._theta1
     @property
     def theta2(self):
         return self._theta2
+
     @property
     def x1(self):
         self._x1 = self.L1*np.sin(self.theta1)
@@ -85,6 +96,7 @@ class DoublePendulum():
     def y2(self):
         self._y2 = self.y1 - self.L2*np.cos(self.theta2)
         return self._y2
+
     @property
     def v(self):
         vx1 = np.gradient(self.x1, self.t)
@@ -100,6 +112,7 @@ class DoublePendulum():
         P2 = self.M2*g*(self.y2 + self.L1 + self.L2)
         self._P = P1 + P2
         return self._P
+
     @property
     def kinetic(self):
         K1 = 0.5*self.M1*(self.v[0]**2 + self.v[1]**2)
@@ -107,6 +120,7 @@ class DoublePendulum():
         self._K = K1 + K2
         return self._K
 
+    # animation methods
     def create_animation(self):
         # Create empty figure
         fig = plt.figure()
