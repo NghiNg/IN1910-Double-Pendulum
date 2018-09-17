@@ -21,3 +21,10 @@ def test_pendulum2():
     test = a(t, (omega, theta))
     assert abs(ans-test[1]) < 1e-10, "Pendulum is not at rest."
 test_pendulum2()
+
+def test_radius():
+    a = Pendulum()
+    a.solve((0,20),50,101)
+    r2 = a.x**2 + a.y**2
+    assert np.isclose(1**2, np.all(r2))
+test_radius()
