@@ -1,5 +1,6 @@
 import scipy.integrate as sp
 import numpy as np
+import math
 import matplotlib.pyplot as plt
 
 g = 9.81        # gravitational acceleration [m/s^2]
