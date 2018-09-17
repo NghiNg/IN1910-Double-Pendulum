@@ -1,3 +1,6 @@
+#This is for me to do tests of things in.
+#For now, I will add changes to things when I work alone and we'll see.
+
 import scipy.integrate as sp
 import numpy as np
 import math
@@ -26,17 +29,14 @@ class Pendulum:
         else:
             raise NameError('Keyword angles must be rad or deg as string.')
         solution = sp.solve_ivp(self, (0,T+1), y0, t_eval=time)
+        self.t = solution.t
+        self.theta, self.omega = solution.y
 
-        def t(self):
-            return self.solution.t
-        def theta(self):
-            return self.solution.y
-        def omega(self):
-            return self.solution.sol
+    def t(self):
+        return self.t
+    def theta(self):
+        return self.theta
+    def omega(self):
+        return self.omega
 
-        solution = property(t,theta,omega)
-
-
-a = Pendulum()
-a.solve((0,20), 50, 101)
-a.t
+    #solution = property(t,theta,omega)
