@@ -22,6 +22,6 @@ def test_arrays_zero():
     '''
     a = DoublePendulum()
     a.solve((0.0, 0, 0.0, 0), 10, 1001)
-    assert np.all(a.theta == 0) and np.all(a.omega == 0), 'initial conditions \
-           y0=(0,0) does not yield arrays with zeros'
+    assert np.all(a.theta1 == 0) and np.all(a.theta2 == 0), \
+           'initial conditions y0=(0,0) does not yield arrays with zeros'
 test_arrays_zero()
