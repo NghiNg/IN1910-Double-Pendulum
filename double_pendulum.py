@@ -11,7 +11,7 @@ class DoublePendulum():
     Class for describing the behaviour of a double pendulum
     '''
     def __init__(self, M1=1, L1=1, M2=1, L2=1):
-        # mass of pendulum and length of rope for pendulum 1 an 2, respectively
+        # mass of ball and length of rope for pendulum 1 an 2, respectively
         self.M1, self.M2, self.L1, self. L2 = M1, M2, L1, L2
 
     def __call__(self, t, y):
@@ -165,7 +165,8 @@ plt.plot(a.t, a.theta2, 'k')
 plt.plot(a.t, a.theta1, 'cyan')
 plt.show()
 '''
-a = DoublePendulum()
-a.solve((1,1,1,1), 10, 1000)
+a = DoublePendulum(L1=0.5, L2=1.5, M1=0.7, M2=0.8)
+a.solve((0,0.1,0,-0.1), 10, 1000)
 a.create_animation()
+#a.show_animation()
 a.save_animation('example_pendulum.mp4')
