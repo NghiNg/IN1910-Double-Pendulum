@@ -28,3 +28,18 @@ def test_radius():
     r2 = a.x**2 + a.y**2
     assert np.isclose(1**2, np.all(r2))
 test_radius()
+
+def test_solve_called_t():
+    a = Pendulum()
+    a.t
+test_solve_called_t()
+
+def test_solve_called_theta():
+    a = Pendulum()
+    a.theta
+test_solve_called_theta()
+
+def test_solve_called_omega():
+    a = Pendulum()
+    a.omega
+test_solve_called_omega()
