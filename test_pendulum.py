@@ -63,5 +63,11 @@ def test_solve_called_omega():
 test_solve_called_omega()
 
 def test_arrays_zero():
-    
+    '''
+    test-function for checking if initial conditions y0=(0,0) yields zero-filled arrays
+    '''
+    a = Pendulum()
+    a.solve((0.0), 10, 1001)
+    assert np.all(a.theta == 0) and np.all(a.omega == 0), 'initial conditions \
+           y0=(0,0) does not yield arrays with zeros'
 test_arrays_zero()
