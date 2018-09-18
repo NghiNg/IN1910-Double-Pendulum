@@ -129,7 +129,7 @@ class DoublePendulum():
         # Configure figure
         plt.axis('equal')
         plt.axis('on')
-        #plt.axis((-3, 3, -3, 3))
+        plt.axis((-5, 5, -5, 5))
 
         # Make an "empty" plot object to be updated throughout the animation
         self.pendulums, = plt.plot([], [], 'o-', lw=2)
