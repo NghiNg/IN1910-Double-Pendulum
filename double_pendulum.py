@@ -13,6 +13,7 @@ class DoublePendulum():
     def __init__(self, M1=1, L1=1, M2=1, L2=1):
         # mass of ball and length of rope for pendulum 1 an 2, respectively
         self.M1, self.M2, self.L1, self. L2 = M1, M2, L1, L2
+        self._t = None
 
     def __call__(self, t, y):
         '''
@@ -128,11 +129,11 @@ class DoublePendulum():
         # Configure figure
         plt.axis('equal')
         plt.axis('on')
-        plt.axis((-3, 3, -3, 3))
+        #plt.axis((-3, 3, -3, 3))
 
         # Make an "empty" plot object to be updated throughout the animation
         self.pendulums, = plt.plot([], [], 'o-', lw=2)
-
+        print(self.x1)
         # Call FuncAnimation
         self.animation = ani.FuncAnimation(fig,
                                                  self._next_frame,
@@ -168,5 +169,5 @@ plt.show()
 a = DoublePendulum(L1=0.5, L2=1.5, M1=0.7, M2=0.8)
 a.solve((0,0.1,0,-0.1), 10, 1000)
 a.create_animation()
-#a.show_animation()
-a.save_animation('example_pendulum.mp4')
+a.show_animation()
+#a.save_animation('example_pendulum.mp4')
