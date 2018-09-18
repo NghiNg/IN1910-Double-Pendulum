@@ -9,4 +9,3 @@ def test_ExponentialDecay():
     f = ExponentialDecay(a)
     ut = f(1,u)
     assert abs(utest - ut) < e, 'PotentialDecay __call__ is wrong.'
-test_ExponentialDecay()
