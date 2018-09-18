@@ -53,7 +53,7 @@ class DoublePendulum():
                 or set to 'deg' for degrees
         '''
         self.dt = dt
-        time = np.linspace(0,T+1,dt)
+        time = np.linspace(0, T+1, dt)
 
         # determining 'angles'-keyword functionality
         if angles == 'deg':
@@ -143,8 +143,8 @@ class DoublePendulum():
                                                  blit=True)
 
     def _next_frame(self, i):
-        self.pendulums.set_data((0, self.x1[i], self.x2[i]), 'c' \
-                                (0, self.y1[i], self.y2[i])) 'm'
+        self.pendulums.set_data((0, self.x1[i], self.x2[i]), \
+                                (0, self.y1[i], self.y2[i]))
         return self.pendulums,
 
     def show_animation(self):
@@ -169,8 +169,8 @@ if __name__ == '__main__':
     plt.show()
     '''
 
-    a = DoublePendulum(L1=2, L2=1, M1=3, M2=2)
-    a.solve((np.pi/4,1,np.pi/3,4), 10, 1000)
+    a = DoublePendulum(L1=1, L2=2, M1=2, M2=1)
+    a.solve((np.pi/4,1,np.pi/3,4), 10, 600)
     a.init_frame()
     #a.show_animation()
     a.save_animation('example_simulation.mp4')
