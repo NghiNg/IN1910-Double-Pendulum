@@ -27,7 +27,7 @@ class DoublePendulum():
         dthetadt2 = y[3]
 
         # theta2 - theta1
-        dtheta = y[2] - y[1]
+        dtheta = y[2] - y[0]
 
         # time derivatives of omega1 and omega2
         domegadt1 = (M2*L1*y[1]**2*np.sin(dtheta)*np.cos(dtheta)
