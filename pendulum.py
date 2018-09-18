@@ -13,6 +13,12 @@ class Pendulum:
         self.L = L      # length of rope [m]
         self.M = M      # mass of pendulum [kg]
 
+        # setting0 _t, _theta and _omega variables to none for exception
+        # handling later
+        self._t = None
+        self._theta = None
+        self._omega = None
+
     def __call__(self, t, y):
         '''
         t: an array of time steps from (0,T)
@@ -51,21 +57,30 @@ class Pendulum:
     # potential energy
     @property
     def t(self):
-        return self._t
+        if np.any(self._t == None):
+            raise ValueError('Time array does not exist. Call solve-method first.')
+        else:
+            return self._t
     @t.setter
     def t(self,value):
         self._t = value
 
     @property
     def theta(self):
-        return self._theta
+        if np.any(self._theta == None):
+            raise ValueError('Theta array does not exist. Call solve-method first.')
+        else:
+            return self._theta
     @theta.setter
     def theta(self,value):
         self._theta = value
 
     @property
     def omega(self):
-        return self._omega
+        if np.any(self._omega == None):
+            raise ValueError('Omega array does not exist. Call solve-method first.')
+        else:
+            return self._omega
     @omega.setter
     def omega(self,value):
         self._omega = value
