@@ -14,7 +14,6 @@ def test_pendulum1():
     a = Pendulum(L)
     test = a(t, (np.pi/4, 0.1))
     assert abs(ans - test[1]) < 1e-5, "Pendulum function is wrong."
-test_pendulum1()
 
 def test_pendulum2():
     '''
@@ -26,7 +25,6 @@ def test_pendulum2():
     a = Pendulum()
     test = a(t, (omega, theta))
     assert abs(ans-test[1]) < 1e-10, "Pendulum is not at rest."
-test_pendulum2()
 
 def test_radius():
     '''
@@ -36,31 +34,13 @@ def test_radius():
     a.solve((0,0.1),10,101)
     r2 = a.x**2 + a.y**2
     assert np.isclose(1**2, np.all(r2))
-test_radius()
 
-@nt.raises(VaulueError)
+@nt.raises(ValueError)
 def test_solve_called_t():
     a = Pendulum()
     a.t
-test_solve_called_t()
-
-'''
-def test_solve_called_theta():
-    '''
-    #deliberately raising exception for when solve-method is not called
-    '''
-    a = Pendulum()
     a.theta
-test_solve_called_theta()
-
-def test_solve_called_omega():
-    '''
-    #deliberately raising exception for when solve-method is not called
-    '''
-    a = Pendulum()
     a.omega
-test_solve_called_omega()
-'''
 
 def test_arrays_zero():
     '''
@@ -70,4 +50,3 @@ def test_arrays_zero():
     a.solve((0, 0), 10, 1001)
     assert np.all(a.theta == 0) and np.all(a.omega == 0), 'initial conditions \
            y0=(0,0) does not yield arrays with zeros'
-test_arrays_zero()
