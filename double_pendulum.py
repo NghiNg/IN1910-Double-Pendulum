@@ -166,7 +166,7 @@ plt.plot(a.t, a.theta1, 'cyan')
 plt.show()
 '''
 a = DoublePendulum(L1=2, L2=1, M1=3, M2=2)
-a.solve((np.pi/4,1,np.pi/3,1), 10, 1000)
+a.solve((np.pi/4,1,np.pi/3,4), 10, 1000)
 a.create_animation()
 #a.show_animation()
 a.save_animation('example_simulation.mp4')
