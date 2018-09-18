@@ -38,17 +38,16 @@ def test_radius():
     assert np.isclose(1**2, np.all(r2))
 test_radius()
 
+@nt.raises(VaulueError)
 def test_solve_called_t():
-    '''
-    deliberately raising exception for when solve-method is not called
-    '''
     a = Pendulum()
     a.t
 test_solve_called_t()
 
+'''
 def test_solve_called_theta():
     '''
-    deliberately raising exception for when solve-method is not called
+    #deliberately raising exception for when solve-method is not called
     '''
     a = Pendulum()
     a.theta
@@ -56,18 +55,19 @@ test_solve_called_theta()
 
 def test_solve_called_omega():
     '''
-    deliberately raising exception for when solve-method is not called
+    #deliberately raising exception for when solve-method is not called
     '''
     a = Pendulum()
     a.omega
 test_solve_called_omega()
+'''
 
 def test_arrays_zero():
     '''
     test-function for checking if initial conditions y0=(0,0) yields zero-filled arrays
     '''
     a = Pendulum()
-    a.solve((0.0), 10, 1001)
+    a.solve((0, 0), 10, 1001)
     assert np.all(a.theta == 0) and np.all(a.omega == 0), 'initial conditions \
            y0=(0,0) does not yield arrays with zeros'
 test_arrays_zero()
