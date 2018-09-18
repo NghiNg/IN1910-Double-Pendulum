@@ -2,7 +2,7 @@ import scipy.integrate as sp
 import numpy as np
 import math
 import matplotlib.pyplot as plt
-import matplotlib.animation as ani
+import matplotlib.animation as animation
 
 g = 9.81        # gravitational acceleration [m/s**2]
 
@@ -122,19 +122,20 @@ class DoublePendulum():
         return self._K
 
     # animation methods
-    def create_animation(self):
+    def init_frame(self):
         # Create empty figure
         fig = plt.figure()
 
         # Configure figure
         plt.axis('equal')
-        plt.axis('on')
+        plt.axis('off')
         plt.axis((-5, 5, -5, 5))
 
         # Make an "empty" plot object to be updated throughout the animation
         self.pendulums, = plt.plot([], [], 'o-', lw=2)
+
         # Call FuncAnimation
-        self.animation = ani.FuncAnimation(fig,
+        self.animation = animation.FuncAnimation(fig,
                                                  self._next_frame,
                                                  frames=range(len(self.x1)),
                                                  repeat=None,
@@ -142,8 +143,8 @@ class DoublePendulum():
                                                  blit=True)
 
     def _next_frame(self, i):
-        self.pendulums.set_data((0, self.x1[i], self.x2[i]),
-                                (0, self.y1[i], self.y2[i]))
+        self.pendulums.set_data((0, self.x1[i], self.x2[i]), 'c' \
+                                (0, self.y1[i], self.y2[i])) 'm'
         return self.pendulums,
 
     def show_animation(self):
@@ -152,21 +153,24 @@ class DoublePendulum():
     def save_animation(self, filename):
         self.animation.save(filename, fps=60)
 
-'''
-a = DoublePendulum()
-a.solve((1,1,1,1), 10, 1001)
 
-plt.plot(a.t, a.kinetic, color='violet')
-plt.plot(a.t, a.potential, color='darkmagenta')
-plt.plot(a.t, a.kinetic + a.potential, color='skyblue')
-plt.legend(['Kinetic', 'Potential', 'Sum'], loc = 'best')
-plt.figure('motion')
-plt.plot(a.t, a.theta2, 'k')
-plt.plot(a.t, a.theta1, 'cyan')
-plt.show()
-'''
-a = DoublePendulum(L1=2, L2=1, M1=3, M2=2)
-a.solve((np.pi/4,1,np.pi/3,4), 10, 1000)
-a.create_animation()
-#a.show_animation()
-a.save_animation('example_simulation.mp4')
+if __name__ == '__main__':
+    '''
+    a = DoublePendulum()
+    a.solve((1,1,1,1), 10, 1001)
+
+    plt.plot(a.t, a.kinetic, color='violet')
+    plt.plot(a.t, a.potential, color='darkmagenta')
+    plt.plot(a.t, a.kinetic + a.potential, color='skyblue')
+    plt.legend(['Kinetic', 'Potential', 'Sum'], loc = 'best')
+    plt.figure('motion')
+    plt.plot(a.t, a.theta2, 'k')
+    plt.plot(a.t, a.theta1, 'cyan')
+    plt.show()
+    '''
+
+    a = DoublePendulum(L1=2, L2=1, M1=3, M2=2)
+    a.solve((np.pi/4,1,np.pi/3,4), 10, 1000)
+    a.init_frame()
+    #a.show_animation()
+    a.save_animation('example_simulation.mp4')
