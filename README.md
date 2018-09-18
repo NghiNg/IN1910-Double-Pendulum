@@ -15,5 +15,9 @@ Excercises 3 and 4 includes files
 - double_pendulum.py
 - test_double_pendulum.py
 
-with simulation video of the double pendulum as
-- example_pendulum.mp4
+With simulation video of the double pendulum as
+- example_simulation.mp4
+
+Errors:
+- Failed to show the animation with show_animation, pops up blank.
+- Failed to save_animation on personal laptops, lack of ffmpeg, did it on campus computers.
