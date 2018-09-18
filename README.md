@@ -16,7 +16,3 @@ Repository for Project 1 in IN1910 by team 169
 
 With simulation video of the double pendulum as
 - *example_simulation.mp4*
-
-Errors:
-- Failed to show the animation with show_animation, pops up blank.
-- Failed to save_animation on personal laptops, lack of ffmpeg, did it on campus computers.
