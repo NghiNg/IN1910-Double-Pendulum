@@ -134,22 +134,24 @@ class DampenedPendulum(Pendulum):
         domegadt = -(g/self.L)*np.sin(y[0]) - (self.B/self.M)*y[1]
         return (dthetadt, domegadt)
 
-# making Pendulum object a
-a = Pendulum()
-a.solve((np.pi/4, 0.1), 50, 1001)
 
-# making a DampenedPendulum object b
-b = DampenedPendulum(B=0.1)
-b.solve((np.pi/4, 0.1), 10, 1001)
+if __name__ == '__main__':
+    # making Pendulum object a
+    a = Pendulum()
+    a.solve((np.pi/4, 0.1), 50, 1001)
 
-# plotting motion of pendulum (theta)
-plt.figure('motion')
-plt.plot(b.t, b.theta, 'k')
+    # making a DampenedPendulum object b
+    b = DampenedPendulum(B=0.1)
+    b.solve((np.pi/4, 0.1), 10, 1001)
 
-# plotting energy of pendulum (potentibl, kinetic, sum)
-plt.figure('energy')
-plt.plot(b.t, b.kinetic, color='darkcyan')
-plt.plot(b.t, b.potential, color='firebrick')
-plt.plot(b.t, b.kinetic + b.potential, color='orange')
+    # plotting motion of pendulum (theta)
+    plt.figure('motion')
+    plt.plot(b.t, b.theta, 'k')
 
-plt.show()
+    # plotting energy of pendulum (potentibl, kinetic, sum)
+    plt.figure('energy')
+    plt.plot(b.t, b.kinetic, color='darkcyan')
+    plt.plot(b.t, b.potential, color='firebrick')
+    plt.plot(b.t, b.kinetic + b.potential, color='orange')
+
+    plt.show()
